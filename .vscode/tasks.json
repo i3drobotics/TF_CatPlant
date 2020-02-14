@@ -1,0 +1,168 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Prog: LabelImg",
+            "type": "shell",
+            "linux": {
+                "command": "sudo ./labelImg",
+            },
+            "windows": {
+                "command": "labelImg.exe",
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/programs/labelimg/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: XML to CSV",
+            "type": "shell",
+            "command": "${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: GenerateTFrecords: Train",
+            "type": "shell",
+            "command": "${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: GenerateTFrecords: Test",
+            "type": "shell",
+            "command": "${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Dataset: Update",
+            "type": "shell",
+            "command": "${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} ggenerate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Train",
+            "type": "shell",
+            "linux": {
+                "command": "${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config",
+            },
+            "windows": {
+                "command": "${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Train: New",
+            "type": "shell",
+            "linux": {
+                "command": "${config:python.pythonPath} purge.py --dir=../../../.. && ${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record && ${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config",
+            },
+            "windows": {
+                "command": "${config:python.pythonPath} purge.py --dir=../../../.. && ${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record && ${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Purge",
+            "type": "shell",
+            "command": "${config:python.pythonPath} purge.py --dir=../../../..",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Tensorboard: Start",
+            "type": "shell",
+            "command": "tensorboard --logdir=training --host localhost --port 8088",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Tensorboard: Show",
+            "type": "shell",
+            "linux": {
+                "command": "google-chrome http://localhost:8088/"
+            },
+            "windows": {
+                "command": "start chrome.exe http://localhost:8088/"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Tensorboard: Run",
+            "type": "shell",
+            "linux": {
+                "command": "google-chrome http://localhost:8088/ && tensorboard --logdir=training --host localhost --port 8088"
+            },
+            "windows": {
+                "command": "start chrome.exe http://localhost:8088/ && tensorboard --logdir=training --host localhost --port 8088"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Export graph",
+            "type": "shell",
+            "linux": {
+                "command": "${config:python.pythonPath} export_inference_graph.py --input_type=image_tensor --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config --trained_checkpoint_prefix=../../../../training/${input:model_checkpoint_file} --output_directory=../../../../inference_graph"
+            },
+            "windows": {
+                "command": "${config:python.pythonPath} export_inference_graph.py --input_type=image_tensor --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config --trained_checkpoint_prefix=../../../../training/${input:model_checkpoint_file} --output_directory=../../../../inference_graph"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Classify",
+            "type": "shell",
+            "command": "${config:python.pythonPath} classify.py --test_image=../../../../images/unknown/${input:unknown_image_file}.jpg --inference_graph=../../../../inference_graph --training_dir=../../../../training",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+          "id": "model_checkpoint_file",
+          "default": "model.ckpt-XXXX",
+          "description": "",
+          "type": "promptString"
+        },
+        {
+            "id": "unknown_image_file",
+            "default": "unknownX",
+            "description": "",
+            "type": "promptString"
+          }
+      ]
+}
