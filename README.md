@@ -57,10 +57,11 @@ Create a new git repository
 - Click the “Create repository” button.
 - Make a note of the repository url
 
-Set remote to your git repository url
+Push this repository to your own git repository url
 ```
 cd [PATH TO REPO]
 git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
+git push -u origin master
 ```
 Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
 
