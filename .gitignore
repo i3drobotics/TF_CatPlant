@@ -1,6 +1,6 @@
-.vscode/settings.json
+.vscode*
 *.pyc
 *__pycache__*
-/images*
-/inference_graph*
-/training*
+images*
+inference_graph*
+training*

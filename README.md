@@ -64,7 +64,14 @@ git push -u origin master
 ```
 Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
 
-## VSCode
+## Initalise
+To create the folder structure expected for the scripts run the following python script: 
+```
+cd PATH_TO_REPO/TF_Sub
+python create_sample.py --dir=../
+```
+
+## Setup VSCode
 VS Code tasks are provided in this repository to make running quick and easy. 
 
 Install VSCode [here](https://code.visualstudio.com/Download)
@@ -76,14 +83,6 @@ Open the repository in VSCode by running vscode and then: file -> open folder ->
 To run these tasks open this repository inside VS code and press F1. Enter 'Tasks' and look for 'Tasks: Run task'. This will then show a list of tasks that can be run. 
 
 To make sure the 'python.pythonPath' used in the tasks is set open a python script within VSCode and select the opropriate python interpretor. This should create settings.json in .vscode and set the 'python.pythonPath' variable.
-
-## Initalise
-To create the folder structure expected for the scripts run the following python script: 
-```
-cd PATH_TO_REPO/TF_Sub
-python create_sample.py --dir=../
-```
-Or using the vscode task: **TF: init**
 
 ## Workspace
 All machine learning scripts should be run in the directory [PATH TO REPO]/models/research/object_detection. Set the current working directory to this directory in the terminal.
