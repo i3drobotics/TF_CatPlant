@@ -50,7 +50,7 @@ Clone this repository (with submodule)
 git clone --recursive https://github.com/i3drobotics/ML_TF_Object_Detect_Template.git
 ```
 Create a new git repository
-- Go to [GitHub](www.github.com).
+- Go to [GitHub](https://www.github.com).
 - Log in to your account.
 - Click the new repository button in the top-right. You’ll have an option there to initialize the repository with a README file, but don’t.
 - Enter a name for your repository (e.g. 'ML_TF_CatPlants_Detect')
