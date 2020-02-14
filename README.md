@@ -1,6 +1,6 @@
 # TF Object Detection Template
 
-## Install
+## Install Dependencies
 Install python 3.5+ *(tested up to Python v3.6.8)*
 
   * **Linux**
@@ -44,11 +44,24 @@ Install git LFS
     git lfs install
     ```
 
-Clone this repository (with submodules)
+## Create repository
+Clone this repository (with submodule)
 ```
-git clone --recursive https://github.com/i3drobotics/TF_CatPlant.git
-git submodule update --init --recursive
+git clone --recursive https://github.com/i3drobotics/ML_TF_Object_Detect_Template.git
 ```
+Create a new git repository
+- Go to [GitHub](www.github.com).
+- Log in to your account.
+- Click the new repository button in the top-right. You’ll have an option there to initialize the repository with a README file, but don’t.
+- Click the “Create repository” button.
+- Make a note of the repository url
+
+Set remote to your git repository url
+```
+cd ML_TF_Object_Detect_Template
+git remote set-url https://github.com/USERNAME/REPOSITORY.git
+```
+Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
 
 ## VSCode
 VS Code tasks are provided in this repository to make running quick and easy. 
