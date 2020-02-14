@@ -59,7 +59,7 @@ Create a new git repository
 
 Set remote to your git repository url
 ```
-cd ML_TF_Object_Detect_Template
+cd [PATH TO REPO]
 git remote set-url https://github.com/USERNAME/REPOSITORY.git
 ```
 Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
@@ -78,7 +78,7 @@ To run these tasks open this repository inside VS code and press F1. Enter 'Task
 To make sure the 'python.pythonPath' used in the tasks is set open a python script within VSCode and select the opropriate python interpretor. This should create settings.json in .vscode and set the 'python.pythonPath' variable.
 
 ## Workspace
-All machine learning scripts should be run in the directory models/research/object_detection. Set the current working directory to this directory in the terminal.
+All machine learning scripts should be run in the directory [PATH TO REPO]/models/research/object_detection. Set the current working directory to this directory in the terminal.
 ```
 cd PATH_TO_REPO/model/research/object_detection
 ```
@@ -145,13 +145,12 @@ The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_
 
 For use in Tensorflow these xml files need to be converted to a single CSV file the lists the filenames and bounding boxes for each dataset. This is performed with the following python script: 
 ```
-python xml_to_csv.py
+python xml_to_csv.py --images_dir=../../../../images
 ```
 Or using the vscode task: **TF: XML to CSV**
 
 Tensorflow cannot actually read csv files directly so TFRecord files must be generated for each dataset. This is performed with the 'generate_tfrecord.py' python script:
 ```
-cd PATH_TO_REPO/model/research/object_detection
 python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record
 python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record
 ```
@@ -168,7 +167,6 @@ This will create a checkpoint every 10 mins. A checkpoint allows for monitoring 
 
 The training can be monitored using 'Tensorboard'. This creates a local server the shows the training loss graphs. Run the following command in the terminal to star the server:
 ```
-cd PATH_TO_REPO
 tensorboard --logdir=../../../../training --host localhost --port 8088
 ```
 This can then be viewed by going to the following address in your default browser http://localhost:8088/
@@ -190,7 +188,6 @@ The same 'train.py' python script will resume a training session if there is che
 ## Export graph
 A tensorflow checkpoint file is not useful in its current state so an intererence graph must be created from the model. This can be done using the python script 'export_inference_graph.py':
 ```
-cd PATH_TO_REPO/model/research/object_detection
 python export_inference_graph.py --input_type image_tensor --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_OS.config --trained_checkpoint_prefix=../../../../training/model.ckpt-XXXX --output_directory=../../../../inference_graph
 ```
 Where 'model.ckpt-*XXXX*' is the checkpoint file with the largest step count e.g. model.ckpt-107679.
@@ -202,7 +199,6 @@ Or running the vscode task: **TF: Export graph** then editing the prompt display
 ### Classify
 Now that the model has been trained and exported it can be tested using the 'unknown' dataset. This will run the unknown images through the inference graph and classify the cats/plants along with a bounding box. This can be run with the python script: 
 ```
-cd PATH_TO_REPO/model/research/object_detection
 python classify.py --test_image=../../../../images/unknown/${input:unknown_image_file}.jpg --inference_graph=../../../../inference_graph --training_dir=../../../../training
 ```
 Where 'unknown*X*.jpg' is the name of the unknow image to classify. 
@@ -214,7 +210,6 @@ Or running the vscode task: **TF: Classify** then editing the prompt displaying 
 ### Purge
 Should you make some edits to the dataset you will need to remove the files created of the old dataset. Any residule training models should be deleted. This can be done by running:
 ```
-cd PATH_TO_REPO/model/research/object_detection
 python purge.py dir=../../../..
 ```
 
@@ -223,7 +218,6 @@ Or running the vscode task: **TF: Purge**
 ### Re-Train
 Now the workspace is clean you can run all the steps from the previous sections. Run the following scripts one after another (this includes purging the demo model):
 ```
-cd PATH_TO_REPO/model/research/object_detection
 python purge.py dir=../../../..
 python xml_to_csv.py --images_dir=../../../../images
 python generate_tfrecord.py --csv_input=./../../../images/train_labels.csv --image_dir=./../../../images/train --output_path=./../../../train.record

@@ -93,9 +93,9 @@
         {
             "label": "TF: Tensorboard: Start",
             "type": "shell",
-            "command": "tensorboard --logdir=training --host localhost --port 8088",
+            "command": "tensorboard --logdir=../../../../training --host localhost --port 8088",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
             "problemMatcher": []
         },
@@ -109,7 +109,7 @@
                 "command": "start chrome.exe http://localhost:8088/"
             },
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
             "problemMatcher": []
         },
@@ -117,13 +117,13 @@
             "label": "TF: Tensorboard: Run",
             "type": "shell",
             "linux": {
-                "command": "google-chrome http://localhost:8088/ && tensorboard --logdir=training --host localhost --port 8088"
+                "command": "google-chrome http://localhost:8088/ && tensorboard --logdir=../../../../training --host localhost --port 8088"
             },
             "windows": {
-                "command": "start chrome.exe http://localhost:8088/ && tensorboard --logdir=training --host localhost --port 8088"
+                "command": "start chrome.exe http://localhost:8088/ && tensorboard --logdir=../../../../training --host localhost --port 8088"
             },
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
             "problemMatcher": []
         },
