@@ -80,7 +80,7 @@ To make sure the 'python.pythonPath' used in the tasks is set open a python scri
 ## Workspace
 All machine learning scripts should be run in the directory [PATH TO REPO]/models/research/object_detection. Set the current working directory to this directory in the terminal.
 ```
-cd PATH_TO_REPO/model/research/object_detection
+cd PATH_TO_REPO/TF_Sub/model/research/object_detection
 ```
 *NOTE:* If you are running vscode tasks this is handled automatically.
 
@@ -95,12 +95,12 @@ In order to add a label classifier some images are needed of the class. For exam
 The new images in test and train need to be labelled so they can be used in the training process. Included in this repo is a program called 'labelImg' that can be used to tag images with bounding boxes to label the location and class of objects in an image.
   * **Linux**
   ```
-  cd [PATH TO REPO]/programs/labelimg
+  cd [PATH TO REPO]/TF_Sub/programs/labelimg
   sudo ./labelImg
   ```
   * **Windows**
   ```
-  [PATH TO REPO]/programs/labelImg/labelImg.exe
+  [PATH TO REPO]/TF_Sub/programs/labelImg/labelImg.exe
   ```
 
 All of the images in 'Train' and 'Test' images should be labelled with what and where the objects are in the images using bounding boxes. These labels take the form of xml documents for each images. 
