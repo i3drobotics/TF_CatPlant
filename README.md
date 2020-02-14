@@ -49,15 +49,14 @@ Clone this repository (with submodule)
 ```
 git clone --recursive https://github.com/i3drobotics/ML_TF_Object_Detect_Template.git
 ```
-Create a new git repository
+
+Push this repository to your own git repository url
 - Go to [GitHub](https://www.github.com).
 - Log in to your account.
 - Click the new repository button in the top-right. You’ll have an option there to initialize the repository with a README file, but don’t.
 - Enter a name for your repository (e.g. 'ML_TF_CatPlants_Detect')
 - Click the “Create repository” button.
 - Make a note of the repository url
-
-Push this repository to your own git repository url
 ```
 cd [PATH TO REPO]
 git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
@@ -77,6 +76,14 @@ Open the repository in VSCode by running vscode and then: file -> open folder ->
 To run these tasks open this repository inside VS code and press F1. Enter 'Tasks' and look for 'Tasks: Run task'. This will then show a list of tasks that can be run. 
 
 To make sure the 'python.pythonPath' used in the tasks is set open a python script within VSCode and select the opropriate python interpretor. This should create settings.json in .vscode and set the 'python.pythonPath' variable.
+
+## Initalise
+To create the folder structure expected for the scripts run the following python script: 
+```
+cd PATH_TO_REPO/TF_Sub
+python create_sample.py --dir=../
+```
+Or using the vscode task: **TF: init**
 
 ## Workspace
 All machine learning scripts should be run in the directory [PATH TO REPO]/models/research/object_detection. Set the current working directory to this directory in the terminal.

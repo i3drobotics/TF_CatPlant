@@ -18,6 +18,15 @@
             "problemMatcher": []
         },
         {
+            "label": "TF: Init",
+            "type": "shell",
+            "command": "${config:python.pythonPath} ${workspaceFolder}/TF_Sub/create_sample.py --dir=..",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "TF: XML to CSV",
             "type": "shell",
             "command": "${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images",
