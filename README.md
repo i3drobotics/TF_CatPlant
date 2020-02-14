@@ -60,7 +60,7 @@ Create a new git repository
 Set remote to your git repository url
 ```
 cd [PATH TO REPO]
-git remote set-url https://github.com/USERNAME/REPOSITORY.git
+git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
 ```
 Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
 
