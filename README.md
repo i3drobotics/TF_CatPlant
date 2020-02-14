@@ -83,13 +83,64 @@ cd PATH_TO_REPO/model/research/object_detection
 ```
 *NOTE:* If you are running vscode tasks this is handled automatically.
 
-## Demo
-### Dataset
-For machine learning to work a labelled dataset is needed to train the model. This repository demonstrates training a model to detect cats and plants. The labelled images are provided in 'images'.
+## Dataset
+### Data
+For machine learning to work a labelled dataset is needed to train the model. Images should be placed in 'images' folder.
+They are sorted into three categories; 'Train', 'Test', and 'Unknown'. 'Train' images are the images used to train the machine learning. 'Test' are used in the training process as a measure for how well the training is performing. 'Unknown' are used as images never seen by the training process to manually test the model after training. 
 
-There are sorted into three categories; 'Train', 'Test', and 'Unknown'. 'Train' images are the images used to train the machine learning. 'Test' are used in the training process as a measure for how well the training is performing. 'Unknown' are used as images never seen by the training process to manually test the model after training. 
+In order to add a label classifier some images are needed of the class. For example if we are adding dogs, 20+ images of dogs should be added to the images in 'images/train' and 5+ images of dogs should be added in 'images/test'. To test completely unseen images once training is complete some more images should be added to 'images/unknown' that are later used to test model. The test dataset is used to create the loss metric while training so images in this folder will match very well. The unknown dataset is used to test the model on completely unseen data that the model has no idea about to give a better idea as the effectiveness of generality. 
 
-All of the images in 'Train' and 'Test' images are labelled with what and where the cats and plants are in the images using bounding boxes. These labels take the form of xml documents for each images. These were created using the labelimg program provided in this repository. Details on using this program can be found in the programs repository [here](https://github.com/tzutalin/labelImg).
+### Labeling
+The new images in test and train need to be labelled so they can be used in the training process. Included in this repo is a program called 'labelImg' that can be used to tag images with bounding boxes to label the location and class of objects in an image.
+  * **Linux**
+  ```
+  cd [PATH TO REPO]/programs/labelimg
+  sudo ./labelImg
+  ```
+  * **Windows**
+  ```
+  [PATH TO REPO]/programs/labelImg/labelImg.exe
+  ```
+
+All of the images in 'Train' and 'Test' images should be labelled with what and where the objects are in the images using bounding boxes. These labels take the form of xml documents for each images. 
+
+![Screenshot of labelled image inside labelImg program](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/Labeling_Data.PNG "Labeling data using labelimg")
+
+Details on using this program can be found in the programs repository [here](https://github.com/tzutalin/labelImg).
+
+After labeling the classes in an images hit 'Save' to create an XML file for that image. This will appear in the same folder as the image.
+
+### Update parameters
+As we have added a class to the dataset the config files need to be updated to inform the scripts of the new class. 
+
+The 'labelmap.pbtxt' in 'training' needs to be edited to include the classes required. In the example below three classes were added 'plant','cat', and 'dog':
+```
+item {
+  id: 1
+  name: 'plant'
+}
+
+item {
+  id: 2
+  name: 'cat'
+}
+
+item {
+  id: 3
+  name: 'dog'
+}
+```
+
+The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_v2_coco_linux.config' in 'training' need to be edited to update the number of classes. (**line 10**)
+```
+...
+
+9:  faster_rcnn {
+10:     num_classes: 3 #edit this line
+11:     image_resizer {
+
+...
+```
 
 For use in Tensorflow these xml files need to be converted to a single CSV file the lists the filenames and bounding boxes for each dataset. This is performed with the following python script: 
 ```
@@ -155,61 +206,8 @@ Where 'unknown*X*.jpg' is the name of the unknow image to classify.
 
 Or running the vscode task: **TF: Classify** then editing the prompt displaying unknown*X* to the unknown image filename to classify e.g. 'unknown2'. 
 
-## Custom dataset
-Once familiar with running the demo dataset you may want to edit the dataset and classes for your own requirements. The following section details the steps needed to change the workspace from plants and cats to plants, cats and dogs. 
-
-### Data
-In order to add a new label classifier some images are needed of the new class. In this case we are adding dogs so 20+ images of dogs should be added to the images in 'images/train' and 5+ images of dogs should be added in 'images/test'. To test completely unseen images once training is complete some more images should be added to 'images/unknown' that are later used to test model. The test dataset is used to create the loss metric while training so images in this folder will match very well. The unknown dataset is used to test the model on completely unseen data that the model has no idea about to give a better idea as the effectiveness of generality. 
-
-### Labeling
-The new images in test and train need to be labelled so they can be used in the training process. Included in this repo is a program called 'labelImg' that can be used to tag images with bounding boxes to label the location and class of objects in an image.
-  * **Linux**
-  ```
-  cd [PATH TO REPO]/programs/labelimg
-  sudo ./labelImg
-  ```
-  * **Windows**
-  ```
-  [PATH TO REPO]/programs/labelImg/labelImg.exe
-  ```
-  
-After labeling the classes in an images hit 'Save' to create an XML file for that image. This will appear in the same folder as the image.
-
-### Update parameters
-As we have added a class to the dataset the config files need to be updated to inform the scripts of the new class. 
-
-The 'labelmap.pbtxt' in 'training' needs to be edited to include the new class:
-```
-item {
-  id: 1
-  name: 'plant'
-}
-
-item {
-  id: 2
-  name: 'cat'
-}
-
-# add this to end of file
-item {
-  id: 3
-  name: 'dog'
-}
-```
-
-The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_v2_coco_linux.config' in 'training' need to be edited to update the number of classes. (**line 10**)
-```
-...
-
-9:  faster_rcnn {
-10:     num_classes: 3 #edit this line
-11:     image_resizer {
-
-...
-```
-
 ### Purge
-As we are creating a new dataset any residule training models from the demo should be deleted. This can be done by running:
+Should you make some edits to the dataset you will need to remove the files created of the old dataset. Any residule training models should be deleted. This can be done by running:
 ```
 cd PATH_TO_REPO/model/research/object_detection
 python purge.py dir=../../../..
@@ -217,8 +215,8 @@ python purge.py dir=../../../..
 
 Or running the vscode task: **TF: Purge**
 
-### Run
-Now the workspace is ready you can run all the steps from the previous section **'Demo'**. Run the following scripts one after another (this includes purging the demo model):
+### Re-Train
+Now the workspace is clean you can run all the steps from the previous sections. Run the following scripts one after another (this includes purging the demo model):
 ```
 cd PATH_TO_REPO/model/research/object_detection
 python purge.py dir=../../../..
