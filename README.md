@@ -175,13 +175,13 @@ There are two vscode tasks for this:
 
 **TF: tensorboard: start** to start the server. 
 
-**TF: tensorboard: show** to open the address in google-chrome *(linux only)*
+**TF: tensorboard: show** to open the address in google-chrome
+
+![Screenshot of loss graphs](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/Loss_Graphs.PNG "Tensorboard Loss graphs")
 
 Training will continue untill 200000 steps is reached as this is expected to be a point where no extra learning can be acheived. However, this can be extended if needed by editing faster_rcnn_inception_v2_coco_*OS*.config **line 113**. 
 
 Training can be stopped when the graphs show a loss of less than 0.1. This can be done by simply pressing CTRL+C in the terminal that is running the training.
-
-![Screenshot of loss graphs](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/Loss_Graphs.PNG "Tensorboard Loss graphs")
 
 The same 'train.py' python script will resume a training session if there is checkpoint data in the 'training' folder.
 
