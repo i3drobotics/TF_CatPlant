@@ -64,7 +64,7 @@ git push -u origin master
 ```
 Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
 
-## Initalise
+## Initialise
 To create the folder structure expected run the following python script: 
 ```
 cd PATH_TO_REPO/TF_Sub
