@@ -53,6 +53,7 @@ Create a new git repository
 - Go to [GitHub](www.github.com).
 - Log in to your account.
 - Click the new repository button in the top-right. You’ll have an option there to initialize the repository with a README file, but don’t.
+- Enter a name for your repository (e.g. 'ML_TF_CatPlants_Detect')
 - Click the “Create repository” button.
 - Make a note of the repository url
 
@@ -182,6 +183,8 @@ Training will continue untill 200000 steps is reached as this is expected to be 
 
 Training can be stopped when the graphs show a loss of less than 0.1. This can be done by simply pressing CTRL+C in the terminal that is running the training.
 
+![Screenshot of loss graphs](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/Loss_Graphs.PNG "Tensorboard Loss graphs")
+
 The same 'train.py' python script will resume a training session if there is checkpoint data in the 'training' folder.
 
 ## Export graph
@@ -205,6 +208,8 @@ python classify.py --test_image=../../../../images/unknown/${input:unknown_image
 Where 'unknown*X*.jpg' is the name of the unknow image to classify. 
 
 Or running the vscode task: **TF: Classify** then editing the prompt displaying unknown*X* to the unknown image filename to classify e.g. 'unknown2'. 
+
+![Screenshot of classified image](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/TestImage_classified.PNG "Classified image")
 
 ### Purge
 Should you make some edits to the dataset you will need to remove the files created of the old dataset. Any residule training models should be deleted. This can be done by running:
