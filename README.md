@@ -1,4 +1,4 @@
-# TF Object Detection Template
+# TF Cat Plant Detection
 
 ## Install Dependencies
 Install python 3.5+ *(tested up to Python v3.6.8)*
@@ -47,40 +47,8 @@ Install git LFS
 ## Create repository
 Clone this repository (with submodule)
 ```
-git clone --recursive https://github.com/i3drobotics/ML_TF_Object_Detect_Template.git
+git clone --recursive https://github.com/i3drobotics/TF_CatPlant.git
 ```
-
-Push this repository to your own git repository url
-- Go to [GitHub](https://www.github.com).
-- Log in to your account.
-- Click the new repository button in the top-right. You’ll have an option there to initialize the repository with a README file, but don’t.
-- Enter a name for your repository (e.g. 'ML_TF_CatPlants_Detect')
-- Click the “Create repository” button.
-- Make a note of the repository url
-```
-cd [PATH TO REPO]
-git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
-git push -u origin master
-```
-Also you can rename the folder to something that makes sense for your dataset (e.g 'ML_TF_CatPlants_Detect').
-
-## Initialise
-To create the folder structure expected run the following python script: 
-```
-cd PATH_TO_REPO/TF_Sub
-python create_sample.py --dir=../
-```
-This will create the following folder structure:
-```
-PATH_TO_REPO
-    images
-        test
-        train
-        unknown
-    inference_graph
-    training
-```
-There will be some sample data in 'images' and 'training' folders. 
 
 ## Setup VSCode
 VS Code tasks are provided in this repository to make running quick and easy. 
@@ -145,11 +113,6 @@ item {
   id: 2
   name: 'cat'
 }
-
-item {
-  id: 3
-  name: 'dog'
-}
 ```
 
 The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_v2_coco_linux.config' in 'training' need to be edited to update the number of classes. (**line 10**)
@@ -157,7 +120,7 @@ The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_
 ...
 
 9:  faster_rcnn {
-10:     num_classes: 3 #edit this line
+10:     num_classes: 2 #edit this line
 11:     image_resizer {
 
 ...
