@@ -125,6 +125,26 @@ The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_
 
 ...
 ```
+Also the paths to some files needed to updated. (**lines 107, 122, 124, 136, 138**)
+```
+...
+
+107: fine_tune_checkpoint: "PATH_TO_REPO/TF_Sub/models/research/object_detection/faster_rcnn_inception_v2_coco_2018_01_28/model.ckpt"
+
+...
+
+122: input_path: "PATH_TO_REPO/train.record"
+123: }
+124: label_map_path: "PATH_TO_REPO/training/labelmap.pbtxt"
+
+...
+
+136: input_path: "PATH_TO_REPO/test.record"
+137: }
+138: label_map_path: "PATH_TO_REPO/training/labelmap.pbtxt"
+
+...
+```
 
 For use in Tensorflow these xml files need to be converted to a single CSV file the lists the filenames and bounding boxes for each dataset. This is performed with the following python script: 
 ```
