@@ -96,7 +96,7 @@ To run these tasks open this repository inside VS code and press F1. Enter 'Task
 To make sure the 'python.pythonPath' used in the tasks is set open a python script within VSCode and select the opropriate python interpretor. This should create settings.json in .vscode and set the 'python.pythonPath' variable.
 
 ## Workspace
-All machine learning scripts should be run in the directory [PATH TO REPO]/models/research/object_detection. Set the current working directory to this directory in the terminal.
+All machine learning scripts should be run in the directory [PATH TO REPO]/TF_Sub/models/research/object_detection. Set the current working directory to this directory in the terminal.
 ```
 cd PATH_TO_REPO/TF_Sub/models/research/object_detection
 ```
