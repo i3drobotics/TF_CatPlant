@@ -29,7 +29,7 @@
         {
             "label": "TF: GenerateTFrecords: Train",
             "type": "shell",
-            "command": "${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record",
+            "command": "${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record",
             "options": {
                 "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
@@ -38,7 +38,7 @@
         {
             "label": "TF: GenerateTFrecords: Test",
             "type": "shell",
-            "command": "${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record",
+            "command": "${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record",
             "options": {
                 "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
@@ -47,7 +47,7 @@
         {
             "label": "TF: Dataset: Update",
             "type": "shell",
-            "command": "${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} ggenerate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record",
+            "command": "${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record",
             "options": {
                 "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
@@ -71,10 +71,10 @@
             "label": "TF: Train: New",
             "type": "shell",
             "linux": {
-                "command": "${config:python.pythonPath} purge.py --dir=../../../.. && ${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record && ${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config",
+                "command": "${config:python.pythonPath} purge.py --dir=../../../.. && ${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record && ${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config",
             },
             "windows": {
-                "command": "${config:python.pythonPath} purge.py --dir=../../../.. && ${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record && ${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config"
+                "command": "${config:python.pythonPath} purge.py --dir=../../../.. && ${config:python.pythonPath} xml_to_csv.py --images_dir=../../../../images && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record && ${config:python.pythonPath} generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record && ${config:python.pythonPath} train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config"
             },
             "options": {
                 "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"

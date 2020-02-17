@@ -154,8 +154,8 @@ Or using the vscode task: **TF: XML to CSV**
 
 Tensorflow cannot actually read csv files directly so TFRecord files must be generated for each dataset. This is performed with the 'generate_tfrecord.py' python script:
 ```
-python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record
-python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record
+python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record
+python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record
 ```
 Or using the vscode tasks: **TF: generateTFrecords: train**, **TF: generateTFrecords: test**
 
@@ -227,8 +227,8 @@ Now the workspace is clean you can run all the steps from the previous sections.
 ```
 python purge.py dir=../../../..
 python xml_to_csv.py --images_dir=../../../../images
-python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record
-python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record
+python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record
+python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record
 [Linux]
 python train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config
 [Windows]
