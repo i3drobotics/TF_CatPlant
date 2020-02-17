@@ -142,9 +142,18 @@
             "problemMatcher": []
         },
         {
-            "label": "TF: Classify",
+            "label": "TF: Classify: Image",
             "type": "shell",
             "command": "${config:python.pythonPath} classify.py --test_image=../../../../images/unknown/${input:unknown_image_file}.jpg --inference_graph=../../../../inference_graph --training_dir=../../../../training",
+            "options": {
+                "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "TF: Classify: Camera Feed",
+            "type": "shell",
+            "command": "${config:python.pythonPath} classify_vid.py --inference_graph=../../../../inference_graph --training_dir=../../../../training",
             "options": {
                 "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },
