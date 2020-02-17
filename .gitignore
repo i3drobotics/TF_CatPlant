@@ -1,8 +1,2 @@
-.vscode*
 *.pyc
 *__pycache__*
-images*
-inference_graph*
-training*
-test.record
-train.record

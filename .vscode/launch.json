@@ -1,0 +1,54 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python Debug: TF: Classify",
+            "type": "python",
+            "request": "launch",
+            "program": "classify.py",
+            "args": [
+                "--test_image",
+                "images/unknown/unknown2.jpg"
+            ],
+            "cwd": "${workspaceFolder}/models/research/object_detection",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python Debug: TF: Train",
+            "type": "python",
+            "request": "launch",
+            "linux": {
+                "program": "train.py",
+                "args": [
+                    "--logtostderr",
+                    "--train_dir",
+                    "training/",
+                    "--pipeline_config_path",
+                    "training/faster_rcnn_inception_v2_coco_linux.config"
+                ]
+            },
+            "windows": {
+                "program": "train.py",
+                "args": [
+                    "--logtostderr",
+                    "--train_dir",
+                    "training/",
+                    "--pipeline_config_path",
+                    "training/faster_rcnn_inception_v2_coco_win.config"
+                ]
+            },
+            "cwd": "${workspaceFolder}/models/research/object_detection",
+            "console": "integratedTerminal"
+        }
+    ]
+}

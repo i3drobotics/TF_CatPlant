@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>cat5.jpg</filename>
+	<path>D:\HOME\Documents\MachineLearning\TF_CatPlant\models\research\object_detection\images\train\cat5.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1600</width>
+		<height>1344</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>cat</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>17</xmin>
+			<ymin>15</ymin>
+			<xmax>1467</xmax>
+			<ymax>1344</ymax>
+		</bndbox>
+	</object>
+</annotation>
