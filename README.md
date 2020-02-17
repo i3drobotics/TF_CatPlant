@@ -43,6 +43,16 @@ Install git LFS
     ```
     git lfs install
     ```
+**[Optional]**
+
+Install TensorFlow GPU
+
+For faster training and classifying you can use the GPU implimentation of TensorFlow using CUDA. This requires a NVidia GPU with driver version >=410.48. See [here](https://docs.nvidia.com/deploy/cuda-compatibility/index.html) for full compatibility details of CUDA. 
+```
+python -m pip install tensorflow-gpu==1.15
+```
+See [here](https://www.tensorflow.org/install/gpu) for detailed install instructions installing GPU tensorflow for Linux/Windows (Currently required to use v1.15).
+
 
 ## Create repository
 Clone this repository (with submodule)
