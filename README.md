@@ -53,25 +53,14 @@ python -m pip install tensorflow-gpu==1.15
 ```
 See [here](https://www.tensorflow.org/install/gpu) for detailed install instructions installing GPU tensorflow for Linux/Windows (Currently required to use v1.15).
 
-
-## Create repository
+## Clone repository
 Clone this repository (with submodule)
 ```
 git clone --recursive https://github.com/i3drobotics/TF_CatPlant.git
 ```
 
-## Setup VSCode
-VS Code tasks are provided in this repository to make running quick and easy. 
-
-Install VSCode [here](https://code.visualstudio.com/Download)
-
-Open the repository in VSCode by running vscode and then: file -> open folder -> [PATH TO REPO]
-
-*Note:* There appears to be an issue with VSCode where it doesn't load environment variables in Windows unless run as an admin. This can cause problems with git LFS so start vscode as an admin: start -> vscode -> right-click -> run as admin
-
-To run these tasks open this repository inside VS code and press F1. Enter 'Tasks' and look for 'Tasks: Run task'. This will then show a list of tasks that can be run. 
-
-To make sure the 'python.pythonPath' used in the tasks is set open a python script within VSCode and select the opropriate python interpretor. This should create settings.json in .vscode and set the 'python.pythonPath' variable.
+## Setup
+See [here](https://github.com/i3drobotics/TF_Sub/blob/master/README.md) for details on training and classifying data with TF_Sub.
 
 ## Workspace
 All machine learning scripts should be run in the directory [PATH TO REPO]/TF_Sub/models/research/object_detection. Set the current working directory to this directory in the terminal.
@@ -80,107 +69,22 @@ cd PATH_TO_REPO/TF_Sub/models/research/object_detection
 ```
 *NOTE:* If you are running vscode tasks this is handled automatically.
 
-## Dataset
-### Data
-For machine learning to work a labelled dataset is needed to train the model. Images should be placed in 'images' folder.
-They are sorted into three categories; 'Train', 'Test', and 'Unknown'. 'Train' images are the images used to train the machine learning. 'Test' are used in the training process as a measure for how well the training is performing. 'Unknown' are used as images never seen by the training process to manually test the model after training. 
-
-In order to add a label classifier some images are needed of the class. For example if we are adding dogs, 20+ images of dogs should be added to the images in 'images/train' and 5+ images of dogs should be added in 'images/test'. To test completely unseen images once training is complete some more images should be added to 'images/unknown' that are later used to test model. The test dataset is used to create the loss metric while training so images in this folder will match very well. The unknown dataset is used to test the model on completely unseen data that the model has no idea about to give a better idea as the effectiveness of generality. 
-
-For an example dataset see the GitHub repository for detecting Cats and Plants [here](https://github.com/i3drobotics/TF_CatPlant_Template)
-
-### Labeling
-The new images in test and train need to be labelled so they can be used in the training process. Included in this repo is a program called 'labelImg' that can be used to tag images with bounding boxes to label the location and class of objects in an image.
-  * **Linux**
-  ```
-  cd [PATH TO REPO]/TF_Sub/programs/labelimg
-  sudo ./labelImg
-  ```
-  * **Windows**
-  ```
-  [PATH TO REPO]/TF_Sub/programs/labelImg/labelImg.exe
-  ```
-
-All of the images in 'Train' and 'Test' images should be labelled with what and where the objects are in the images using bounding boxes. These labels take the form of xml documents for each images. 
-
-![Screenshot of labelled image inside labelImg program](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/Labeling_Data.PNG "Labeling data using labelimg")
-
-Details on using this program can be found in the programs repository [here](https://github.com/tzutalin/labelImg).
-
-After labeling the classes in an images hit 'Save' to create an XML file for that image. This will appear in the same folder as the image.
-
-### Update parameters
-As we have added a class to the dataset the config files need to be updated to inform the scripts of the new class. 
-
-The 'labelmap.pbtxt' in 'training' needs to be edited to include the classes required. In the example below three classes were added 'plant','cat', and 'dog':
+## Update training
+This repository contains a trained model using the images provided in 'images'. Should extra labelled images be added the following procedure will need to be followed to re-train the model.
+After adding labelled data to the 'images' folder, run the following scripts one after another (***WARNING!*** this includes purging the previous model)
 ```
-item {
-  id: 1
-  name: 'plant'
-}
-
-item {
-  id: 2
-  name: 'cat'
-}
-```
-
-The files 'faster_rcnn_inception_v2_coco_win.config' and 'faster_rcnn_inception_v2_coco_linux.config' in 'training' need to be edited to update the number of classes. (**line 10**)
-```
-...
-
-9:  faster_rcnn {
-10:     num_classes: 2 #edit this line
-11:     image_resizer {
-
-...
-```
-Also the paths to some files needed to updated. (**lines 107, 122, 124, 136, 138**)
-```
-...
-
-107: fine_tune_checkpoint: "PATH_TO_REPO/TF_Sub/models/research/object_detection/faster_rcnn_inception_v2_coco_2018_01_28/model.ckpt"
-
-...
-
-122: input_path: "PATH_TO_REPO/train.record"
-123: }
-124: label_map_path: "PATH_TO_REPO/training/labelmap.pbtxt"
-
-...
-
-136: input_path: "PATH_TO_REPO/test.record"
-137: }
-138: label_map_path: "PATH_TO_REPO/training/labelmap.pbtxt"
-
-...
-```
-
-For use in Tensorflow these xml files need to be converted to a single CSV file the lists the filenames and bounding boxes for each dataset. This is performed with the following python script: 
-```
+python purge.py dir=../../../..
 python xml_to_csv.py --images_dir=../../../../images
-```
-Or using the vscode task: **TF: XML to CSV**
-
-Tensorflow cannot actually read csv files directly so TFRecord files must be generated for each dataset. This is performed with the 'generate_tfrecord.py' python script:
-```
-python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record
-python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record
-```
-Or using the vscode tasks: **TF: generateTFrecords: train**, **TF: generateTFrecords: test**
-
-### Train
-Training is performed with the 'train.py' python script: 
-```
+python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --output_path=../../../../train.record
+python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --output_path=../../../../test.record
 [Linux]
 python train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config
-
 [Windows]
 python train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config
 ```
-Where 'faster_rcnn_inception_v2_coco_*OS*.config' is the pipline config file found in 'training/'. This should be 'faster_rcnn_inception_v2_coco_win.config' if running on windows and 'faster_rcnn_inception_v2_coco_linux.config' if running on linux. This will overwrite the contents of pipline.config. 
+Or run the vscode task: **TF: Train: New** (***WARNING!*** this includes purging the previous model)
 
-This will create a checkpoint every 10 mins. A checkpoint allows for monitoring while the training process is running as well as a safety should a problem occur whilst training process is running. 
+Whilst training this will create a checkpoint every 10 mins. A checkpoint allows for monitoring while the training process is running as well as a safety should a problem occur whilst training process is running. 
 
 The training can be monitored using 'Tensorboard'. This creates a local server the shows the training loss graphs. Run the following command in the terminal to star the server:
 ```
@@ -202,7 +106,7 @@ Training can be stopped when the graphs show a loss of less than 0.1. This can b
 
 The same 'train.py' python script will resume a training session if there is checkpoint data in the 'training' folder.
 
-## Export graph
+## Update model
 A tensorflow checkpoint file is not useful in its current state so an intererence graph must be created from the model. This can be done using the python script 'export_inference_graph.py':
 ```
 python export_inference_graph.py --input_type image_tensor --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_OS.config --trained_checkpoint_prefix=../../../../training/model.ckpt-XXXX --output_directory=../../../../inference_graph
@@ -213,7 +117,7 @@ And 'faster_rcnn_inception_v2_coco_*OS*.config' is the pipline config file found
 
 Or running the vscode task: **TF: Export graph** then editing the prompt displaying 'model.ckpt-XXXX' to the checkpoint file with the largest step count e.g. model.ckpt-107679. The pipeline config file is chosen automatically.
 
-### Classify
+## Classify
 Now that the model has been trained and exported it can be tested using the 'unknown' dataset. This will run the unknown images through the inference graph and classify the cats/plants along with a bounding box. This can be run with the python script: 
 ```
 python classify.py --test_image=../../../../images/unknown/unknownX.jpg --inference_graph=../../../../inference_graph --training_dir=../../../../training
@@ -232,24 +136,18 @@ For a video file use the option '--vid'.
 
 For a usb camera use the option '--cam'.
 
-### Purge
-Should you make some edits to the dataset you will need to remove the files created of the old dataset. Any residule training models should be deleted. This can be done by running:
+### Standalone
+For standlone running of the classification there is a 'standalone' folder which holds all the scripts needed to load a model and run the classification. Once the model in the repository has been trained and exported, copy the 'frozen_inference_graph.pb' from 'inference_graph' folder in the repository to the 'Model' folder in the standalone directory. Also copy the 'labelmap.pbtxt' inside 'training' to the same 'Model' directory in the standalone folder. Alternatively run the following script:
 ```
-python purge.py dir=../../../..
+cd PATH_TO_REPO/TF_Sub
+generate_standalone.py --inference_graph=../inference_graph --training_dir=../training --standalone_dir=../standalone
 ```
+Or copy the required files into the standalone directory by running the vscode task: **TF: Generate standalone**
 
-Or running the vscode task: **TF: Purge**
-
-### Re-Train
-Now the workspace is clean you can run all the steps from the previous sections. Run the following scripts one after another (this includes purging the demo model):
+This 'standalone' folder could now be copied anywhere required and it has all the data and scripts needed to classify. 
+Classification can be run the same way as previously as this same script is included in the 'standalone' directory:
 ```
-python purge.py dir=../../../..
-python xml_to_csv.py --images_dir=../../../../images
-python generate_tfrecord.py --csv_input=../../../../images/train_labels.csv --image_dir=../../../../images/train --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../train.record
-python generate_tfrecord.py --csv_input=../../../../images/test_labels.csv --image_dir=../../../../images/test --labelmap=../../../../training/labelmap.pbtxt --output_path=../../../../test.record
-[Linux]
-python train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_linux.config
-[Windows]
-python train.py --logtostderr --train_dir=../../../../training/ --pipeline_config_path=../../../../training/faster_rcnn_inception_v2_coco_win.config
+cd PATH_TO_REPO/standalone/scripts/object_detection
+classify_vid.py --inference_graph=../../Model --training_dir=../../Model --output_dir=../../Result --cam=0 --flip --split
 ```
-Or run the vscode task: **TF: Train: New** (this includes purging the demo model)
+Provided is a vscode task within the standalone directory. To run this open the standalone directory with vscode then hit F1-> Tasks: Run Task -> TF: Classify: Camera Feed
