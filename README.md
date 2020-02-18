@@ -98,7 +98,7 @@ There are two vscode tasks for this:
 
 **TF: tensorboard: show** to open the address in google-chrome
 
-![Screenshot of loss graphs](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/Loss_Graphs.PNG "Tensorboard Loss graphs")
+![Screenshot of loss graphs](https://github.com/i3drobotics/TF_CatPlant/raw/master/screenshots/Loss_Graphs.PNG "Tensorboard Loss graphs")
 
 Training will continue untill 200000 steps is reached as this is expected to be a point where no extra learning can be acheived. However, this can be extended if needed by editing faster_rcnn_inception_v2_coco_*OS*.config **line 113**. 
 
@@ -126,7 +126,7 @@ Where 'unknown*X*.jpg' is the name of the unknow image to classify.
 
 Or running the vscode task: **TF: Classify** then editing the prompt displaying unknown*X* to the unknown image filename to classify e.g. 'unknown2'. 
 
-![Screenshot of classified image](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/TestImage_classified.PNG "Classified image")
+![Screenshot of classified image](https://github.com/i3drobotics/TF_CatPlant/raw/master/screenshots/TestImage_classified.PNG "Classified image")
 
 Also avaiable for testing the classification is a script that runs openCV Video Capture to classify based on the image from a usb camera or video file. This can be run with the following command:
 ```
