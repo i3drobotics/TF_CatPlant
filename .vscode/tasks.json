@@ -153,7 +153,7 @@
         {
             "label": "TF: Classify: Camera Feed",
             "type": "shell",
-            "command": "${config:python.pythonPath} classify_vid.py --inference_graph=../../../../inference_graph --training_dir=../../../../training",
+            "command": "${config:python.pythonPath} classify_vid.py --inference_graph=../../../../inference_graph --training_dir=../../../../training --cam=0 --flip --split",
             "options": {
                 "cwd": "${workspaceFolder}/TF_Sub/models/research/object_detection"
             },

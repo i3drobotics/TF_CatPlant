@@ -224,6 +224,14 @@ Or running the vscode task: **TF: Classify** then editing the prompt displaying 
 
 ![Screenshot of classified image](https://github.com/i3drobotics/ML_TF_Object_Detect_Template/raw/master/screenshots/TestImage_classified.PNG "Classified image")
 
+Also avaiable for testing the classification is a script that runs openCV Video Capture to classify based on the image from a usb camera or video file. This can be run with the following command:
+```
+python classify_vid.py --inference_graph=../../../../inference_graph --training_dir=../../../../training [--vid=PATH_TO_VIDEO / --cam=0]
+```
+For a video file use the option '--vid'.
+
+For a usb camera use the option '--cam'.
+
 ### Purge
 Should you make some edits to the dataset you will need to remove the files created of the old dataset. Any residule training models should be deleted. This can be done by running:
 ```
